@@ -1,11 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="style.css" rel="stylesheet" type="text/css" />
     <title>Proyecto Final</title>
-</head>
-<body>
     <script src="./index.js"></script>
-</body>
+  </head>
+  <body>
+    <h1>Proyecto Final</h1>
+    <button onclick="mostrarUsuariosValidos()">Mostrar cuentas</button>
+    <button onclick="ingresa()">Ingresar</button>
+    <button onclick="productos()">Productos</button>
+    <button onclick="verCompras()">Ver mis compras</button>
+    <button onclick="carrito()">Carrito</button>
+    <button onclick="calcularValorCuotas()">Calcular valor cuotas</button>
+
+    <div class="container">
+      <form class="form" onsubmit="crear(event);">
+        <h2>Crear cuenta</h2>
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Ignacio" />
+        <label for="apellido">Contraseña</label>
+        <input type="text" id="apellido" name="apellido" placeholder="Musa" />
+        <button type="submit">Crear cuenta</button>
+      </form>
+
+      <div class="cuentasCompras">
+        <div class="usuarios">
+          <h3 id="tituloCuentas">Cuentas creadas</h3>
+          <div class="listaUsuarios" id="usuariosValidos"></div>
+        </div>
+
+        <div class="compras">
+          <h3 id="tituloCompras">Mis compras</h3>
+          <div class="listaDeCompras" id="listaDeCompras"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script type="text/javascript">
+    let usuariosVisibles = false;
+    let comprasVisibles = false;
+
+    const crear = (evt) => {
+      evt.preventDefault();
+      const form = event.target;
+      const inputNombre = form.nombre;
+      const inputApellido = form.apellido;
+      crearCuenta(inputNombre.value, inputApellido.value);
+      mostrarUsuariosValidos();
+      mostrarUsuariosValidos();
+      inputNombre.value = "";
+      inputApellido.value = "";
+    };
+
+    const mostrarUsuariosValidos = () => {
+      if (usuariosVisibles) {
+        usuariosVisibles = false;
+        document.getElementById("usuariosValidos").style.display = "none";
+      } else {
+        usuariosVisibles = true;
+        document.getElementById("usuariosValidos").style.display = "";
+      }
+
+      document.getElementById("usuariosValidos").innerHTML = usuariosValidos
+        .map(
+          ({ usuario, contraseña }) =>
+            `<div class="card">
+              <div class="cardContainer">
+                <p>Nombre: ${usuario}</p>
+                <p>Contraseña: ${contraseña}</p>
+                </div>
+              </div>`
+        )
+        .join("");
+    };
+
+    const verCompras = () => {
+      if (comprasVisibles) {
+        comprasVisibles = false;
+        document.getElementById("listaDeCompras").style.display = "none";
+      } else {
+        comprasVisibles = true;
+        document.getElementById("listaDeCompras").style.display = "";
+      }
+
+      document.getElementById("listaDeCompras").innerHTML =
+        comprasRealizadas.length > 0
+          ? comprasRealizadas
+              .map(
+                ({ producto, precio }) =>
+                  `<div class="card">
+              <div class="cardContainer">           
+              <p>Producto: ${producto}</p>
+              <p>Precio: ${precio}</p>
+            </div>
+              </div>`
+              )
+              .join("")
+          : `<div>             
+            <p>No hay productos en la canasta</p>
+              </div>`;
+    };
+  </script>
 </html>
