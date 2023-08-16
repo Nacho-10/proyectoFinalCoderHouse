@@ -32,8 +32,18 @@ const totalDeProductos = [
 
 // const opcion = () => {
 const crearCuenta = (usuario, contraseña) => {
-  usuariosValidos.push({ usuario, contraseña });
+  console.log(usuario)
+  console.log(contraseña)
+//usuariosValidos.push({ usuario, contraseña });
+localStorage.setItem(localStorage.length+1, JSON.stringify({usuario , contraseña}));
+let userData = [];
+for (var i=1; i <= localStorage.length; i++)  {
+  userData.push(JSON.parse(localStorage.getItem(i)))
+}
+console.log(userData)
 };
+localStorage.clear()
+
 
 const ingresa = () => {
   const usuario = prompt("Ingresa tu usuario:");
